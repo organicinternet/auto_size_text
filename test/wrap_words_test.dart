@@ -39,6 +39,42 @@ void main() {
     expect(height, 20);
   });
 
+  testWidgets('Do not wrap words with non breaking spaces', (tester) async {
+    await pumpAndExpectFontSize(
+      tester: tester,
+      expectedFontSize: 10,
+      widget: SizedBox(
+        width: 40,
+        child: AutoSizeText(
+          'XX\u{00A0}XX',
+          style: TextStyle(fontSize: 25),
+          minFontSize: 10,
+          maxLines: 10,
+          wrapWords: false,
+        ),
+      ),
+    );
+    var height = tester.getSize(find.byType(RichText)).height;
+    expect(height, 20);
+
+    await pumpAndExpectFontSize(
+      tester: tester,
+      expectedFontSize: 10,
+      widget: SizedBox(
+        width: 40,
+        child: AutoSizeText(
+          'XXXXX',
+          style: TextStyle(fontSize: 25),
+          minFontSize: 10,
+          maxLines: 10,
+          wrapWords: false,
+        ),
+      ),
+    );
+    height = tester.getSize(find.byType(RichText)).height;
+    expect(height, 20);
+  });
+
   testWidgets('Wrap words', (tester) async {
     await pumpAndExpectFontSize(
       tester: tester,

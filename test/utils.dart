@@ -17,7 +17,7 @@ bool doesTextFit(
   final span = text.textSpan ?? TextSpan(text: text.data, style: text.style);
   var maxLines = text.maxLines;
   if (!wrapWords) {
-    final wordCount = span.toPlainText().split(RegExp('\\s+')).length;
+    final wordCount = span.toPlainText().split(RegExp('[   \n]+')).length;
     maxLines = maxLines!.clamp(1, wordCount);
   }
 
